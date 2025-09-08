@@ -16,3 +16,25 @@
 `pip install opencv-python ffmpeg-python librosa pytesseract faster-whisper typer`\
 `sudo apt install tesseract-ocr -y`\
 `sudo apt install ffmpeg -y`
+
+## Run from root
+`python -m src.main -i <input folder>`
+
+# Dev Road Map
+- [ ] File system (open,rename)
+- [ ] Audio processor
+    - [ ] Get audio
+    - [ ] Preprocessing
+    - [ ] Detect slate clap
+    - [ ] Find slate call
+    - [ ] Transcribe
+- [ ] Video processor
+    - [ ] Get frames
+    - [ ] Preprocessing
+    - [ ] Transcribe
+- [ ] Additional Perameters
+    - [ ] Rely on video cue only
+    - [ ] Rely on audio cue only
+    - [ ] Accept only above a certain confidence for video
+    - [ ] Accept only above a certain confidence for audio
+    - [ ] Print confidence for each video
