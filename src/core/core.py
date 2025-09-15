@@ -11,6 +11,7 @@ def relabel_videos(input_folder):
     log(video_paths)
 
     # for every video path
+    # assumes video_paths_in_folder() "checks" files are videos
     for video_path in video_paths:
         # get audio info (label, confidence)
         # get video info (label, confidence)

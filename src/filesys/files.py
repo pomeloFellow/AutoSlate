@@ -1,6 +1,7 @@
 # file maniputlation
 from pathlib import Path
 from src.utils.utils import log
+import src.errorhandling.fserrors as fserror
 
 
 def is_dir(folder_path):
@@ -13,13 +14,12 @@ def is_dir(folder_path):
         bool: if folder_path is a directory
     """
     p = Path(folder_path)
-    isDir = p.is_dir()
-    if isDir:
-        log(folder_path + " found")
-        return True
-    else:
-        log(folder_path + " not found")
-        return False
+    if not p.is_dir():
+        raise fserror.DirNotFoundError(p)
+    
+    log(f"{folder_path} found")
+    return True
+
 
 
 def video_paths_in_folder(folder_path):
@@ -33,7 +33,10 @@ def video_paths_in_folder(folder_path):
     """
     p = Path(folder_path)
     video_paths = list(p.glob('**/*.mp4'))
-    return video_paths
+    if not video_paths:
+        raise fserror.NoVideosInDirError(p)
+    else:
+        return video_paths
 
 
 def rename_video(old_video_path, new_video_name):
@@ -46,6 +49,14 @@ def rename_video(old_video_path, new_video_name):
     Returns:
         bool: success or failure
     """
+    if not old_video_path.exists():
+        raise fserror.FileNotFoundError(old_video_path)
+    
     new_file_path = old_video_path.parent / new_video_name
+    if new_file_path.exists():
+        raise fserror.FileAlreadyExistsError(new_file_path)
+    if not new_video_name.endswith(".mp4"):
+        raise fserror.NotMP4Error(new_file_path)
+    
     old_video_path.rename(new_file_path)
     return True
