@@ -21,10 +21,10 @@
 `python -m src.main -i <input folder>`
 
 # Dev Road Map
-- [ ] File system (open,rename)
+- [x] File system (open,rename)
 - [ ] Audio processor
     - [ ] Get audio
-    - [ ] Preprocessing
+    - [ ] Preprocessing (Noise Reduction)
     - [ ] Detect slate clap
     - [ ] Find slate call
     - [ ] Transcribe

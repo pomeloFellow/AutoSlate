@@ -9,7 +9,7 @@ class DirNotFoundError(FileError):
     """
     def __init__(self, path):
         super().__init__(f"Directory not found: {path}")
-        self.path = path
+        
 
 class FileNotFoundError(FileError):
     """Error if file path is not found
@@ -19,7 +19,7 @@ class FileNotFoundError(FileError):
     """
     def __init__(self, path):
         super().__init__(f"{path} cannot be found")
-        super.path = path
+        
 
 class NoVideosInDirError(FileError):
     """Error if no video files in directory
@@ -29,7 +29,7 @@ class NoVideosInDirError(FileError):
     """
     def __init__(self, path):
         super().__init__(f"No videos in {path}")
-        self.path = path
+        
 
 class NotMP4Error(FileError):
     """Error if file is not mp4
@@ -39,7 +39,7 @@ class NotMP4Error(FileError):
     """
     def __init__(self, path):
         super().__init__(f"{path} is not an MP4")
-        super.path = path
+        
 
 class FileAlreadyExistsError(FileError):
     """Error if file path already exists
@@ -49,4 +49,4 @@ class FileAlreadyExistsError(FileError):
     """
     def __init__(self, path):
         super().__init__(f"Cannot rename to {path}. File already exists.")
-        super.path = path
+        

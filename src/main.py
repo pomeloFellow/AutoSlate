@@ -1,7 +1,7 @@
 # entry point for application
 from src.core.core import relabel_videos
-
 import argparse
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -10,7 +10,6 @@ def main():
     
     # arguments/ flags
     parser.add_argument("--input", "-i", required=True, help="Path to input folder")
-    parser.add_argument("--output", "-o", default="./out", help="Path to output folder")
 
     # args creation
     args = parser.parse_args()
