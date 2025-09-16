@@ -6,12 +6,13 @@ from scipy.signal import butter, sosfilt
 
 def test_preprocessor(video_path):
     audio = extract_audio_raw(video_path)
-    utils.plot_waveform_with_peaks(audio)
+    # utils.plot_waveform_with_peaks(audio)
     denoised_audio = remove_audio_noise(audio)
     bandpassed_audio = bandpass_audio(denoised_audio)
     final_audio = normalize_raw_audio(bandpassed_audio)
-    utils.plot_waveform_with_peaks(final_audio)
-    find_clipping_sec(final_audio)
+    # utils.plot_waveform_with_peaks(final_audio)
+    
+    return final_audio, find_clipping_sec(final_audio)[0]
 
 
 def extract_audio_raw(path):
