@@ -17,7 +17,6 @@ def transcribe(audio, clipping_time):
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
     return result
 
-
 def total_audio_confidence(whisper_result):
     segments = whisper_result.get("segments", [])
     if not segments:

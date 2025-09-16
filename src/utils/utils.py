@@ -13,6 +13,13 @@ def log(message):
     """
     print(f"[LOG] {message}")
 
+def log_function_result(func):
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        print(f"The function '{func.__name__}' returned: {result}")
+        return result
+    return wrapper
+
 def plot_waveform_with_peaks(audio, threshold=0.99, sample_rate=16000):
     """
     Plots audio waveform with clipping/peak markers, x-axis in seconds,

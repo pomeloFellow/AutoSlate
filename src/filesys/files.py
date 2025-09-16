@@ -3,8 +3,7 @@ from pathlib import Path
 from src.utils.utils import log
 import src.errorhandling.fserrors as fserror
 import re
-import word2number as w2n
-
+from word2number import w2n
 
 def is_dir(folder_path):
     """Returns if folder_path is a directory
@@ -41,26 +40,16 @@ def video_paths_in_folder(folder_path):
         return video_paths
 
 def convert_part(s):
-    s = s.strip()
-    # Handle "point X"
-    if "point" in s:
-        parts = s.split("point")
-        whole = parts[0].strip()
-        frac = parts[1].strip()
+    s = s.split()
+    ret_arr = []
+    for token in s:
         try:
-            whole_num = int(whole) if whole.isdigit() else w2n.word_to_num(whole)
+            temp = str(w2n.word_to_num(token))
+            ret_arr.append(temp)
         except:
-            whole_num = whole
-        try:
-            frac_num = int(frac) if frac.isdigit() else w2n.word_to_num(frac)
-        except:
-            frac_num = frac
-        return f"{whole_num}.{frac_num}"
-    else:
-        try:
-            return str(w2n.word_to_num(s)) if not s[0].isdigit() else s
-        except:
-            return s
+            ret_arr.append(token)
+    res_str = "".join(ret_arr)
+    return res_str
 
 def text_to_file_name(text):
     clean_text = re.sub(r"[.,]", "", text.lower())

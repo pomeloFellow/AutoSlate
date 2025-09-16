@@ -18,7 +18,7 @@
 `sudo apt install ffmpeg -y`
 
 ## Run from root
-`python -m src.main -i <input folder>`
+`python -m src.main -i "<input folder>"`
 
 # Dev Road Map
 - [x] File system (open,rename,text->filename)

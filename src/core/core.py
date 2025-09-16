@@ -6,6 +6,7 @@ import src.audio.transcriber as transcriber
 
 def relabel_videos(input_folder):
     # check if input_folder is directory
+    util.log(input_folder)
     fs.is_dir(input_folder)
 
     # make array of video posixpaths
@@ -28,5 +29,4 @@ def relabel_videos(input_folder):
 
         # relabel video
         new_label = fs.text_to_file_name(audio_text)
-        util.log(audio_text)
         fs.rename_video(video_path, new_label + ".mp4")
