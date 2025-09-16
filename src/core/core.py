@@ -3,6 +3,7 @@ import src.utils.utils as util
 import src.filesys.files as fs
 import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
+import src.core.audiopipeline as ap
 
 def relabel_videos(input_folder):
     # check if input_folder is directory
@@ -17,13 +18,7 @@ def relabel_videos(input_folder):
     # assumes video_paths_in_folder() "checks" files are videos
     for video_path in video_paths:
         # get audio info (label, confidence)
-        audio, clip_time = preprocessor.test_preprocessor(video_path)
-        util.log(clip_time)
-        whisper_result = transcriber.transcribe(audio, clip_time)
-        util.log(whisper_result)
-        util.log(transcriber.total_audio_confidence(whisper_result))
-        audio_text = transcriber.get_text(whisper_result)
-        util.log(audio_text)
+        audio_text, confidence = ap.get_text_from_audio(video_path, True)
 
         # get video info (label, confidence)
 

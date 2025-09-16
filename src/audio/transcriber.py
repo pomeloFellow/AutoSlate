@@ -2,9 +2,19 @@ import src.audio.preprocessor as preprocessor
 import numpy as np
 import whisper as whisper
 import math
+import src.errorhandling.audioerrors as audioerror
 
 # whisper
 def transcribe(audio, clipping_time):
+    """Uses whisper to transcribe audio numpy buffer from start to clip time
+
+    Args:
+        audio (numpy buffer): Buffer holding audio information
+        clipping_time (int): Time in sec to end transcription
+
+    Returns:
+        _type_: _description_
+    """
     start_sec = 0.0
     end_sec = clipping_time
     start_sample = int(start_sec * 16000)
@@ -17,7 +27,15 @@ def transcribe(audio, clipping_time):
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
     return result
 
-def total_audio_confidence(whisper_result):
+def total_weighted_audio_confidence(whisper_result):
+    """Calculates the weighted avg log probability of all whisper_result segments
+
+    Args:
+        whisper_result (dict): dict result from whisper transcription
+
+    Returns:
+        float: "Confidence" from 0 to 1, 1 being 100% confidence
+    """
     segments = whisper_result.get("segments", [])
     if not segments:
         return 0.0 
@@ -35,4 +53,15 @@ def total_audio_confidence(whisper_result):
     return confidence
 
 def get_text(whisper_result):
-    return whisper_result.get('text', None)
+    """ Returns text from whisper result
+
+    Args:
+        whisper_result (dict): Result from whisper translation
+
+    Returns:
+        string: Text transcribed by whisper_result
+    """
+    text = whisper_result.get('text', None)
+    if not text:
+        raise audioerror.transcriber_error()
+    return text
