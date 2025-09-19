@@ -1,18 +1,19 @@
 class AudioError(Exception):
-    pass
+    def __init__(self, text):
+        super().__init__(text)
 
-def empty_audio_buffer(AudioError):
+class EmptyAudioBuffer(AudioError):
     def __init__(self):
-        super().__init__(f"Audio buffer empty")
+        super().__init__("Audio buffer empty")
 
-def buffer_as_inf_values(AudioError):
+class BufferHasInfValues(AudioError):
     def __init__(self):
-        super().__init__(f"Audio buffer has inf values")
+        super().__init__("Audio buffer has inf values")
 
-def audio_buffer_too_small(AudioError):
+class AudioBufferTooSmall(AudioError):
     def __init__(self):
-        super().__init__(f"Audio clip too short")
+        super().__init__("Audio clip too short")
 
-def transcriber_error(AudioError):
-    def __init__(self):
-        super().__init__(f"No text key in dict")
+class TranscriberError(AudioError):
+    def __init__(self, text):
+        super().__init__(text)

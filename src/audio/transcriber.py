@@ -25,6 +25,8 @@ def transcribe(audio, clipping_time):
                               fp16=False,
                               language='en',
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
+    if "scene" not in result["text"] or "shot" not in result["text"] or "take" not in result["text"]:
+        raise audioerror.TranscriberError(f"Unable to get all necessary information.")
     return result
 
 def total_weighted_audio_confidence(whisper_result):
@@ -63,5 +65,5 @@ def get_text(whisper_result):
     """
     text = whisper_result.get('text', None)
     if not text:
-        raise audioerror.transcriber_error()
+        raise audioerror.TranscriberError("No text key in result")
     return text
