@@ -24,16 +24,16 @@ def is_dir(folder_path):
 
 
 def video_paths_in_folder(folder_path):
-    """Returns array of posix paths of .mp4 videos in folder_path dir
+    """Returns array of posix paths of .mp4 and .braw videos in folder_path dir
 
     Args:
         folder_path (string): name of folder holding videos to relabel
 
     Returns:
-        array: array of posix paths of .mp4 videos
+        array: array of posix paths of .mp4 and .braw videos
     """
     p = Path(folder_path)
-    video_paths = list(p.glob('**/*.mp4'))
+    video_paths = list(p.glob('**/*.mp4')) + list(p.glob('**/*.braw'))
     if not video_paths:
         raise fserror.NoVideosInDirError(p)
     else:
@@ -78,7 +78,7 @@ def rename_video(old_video_path, new_video_name):
 
     Args:
         old_video_path (PosixPath): PosixPath of video to rename
-        new_video_name (string): new name of video (needs .mp4 suffix)
+        new_video_name (string): new name of video (needs .mp4 or .braw suffix)
 
     Returns:
         bool: success or failure
@@ -89,8 +89,8 @@ def rename_video(old_video_path, new_video_name):
     new_file_path = old_video_path.parent / new_video_name
     if new_file_path.exists():
         raise fserror.FileAlreadyExistsError(new_file_path)
-    if not new_video_name.endswith(".mp4"):
-        raise fserror.NotMP4Error(new_file_path)
+    if not new_video_name.endswith(".mp4") and not new_video_name.endswith(".braw"):
+        raise fserror.NotVideoError(new_file_path)
     
     old_video_path.rename(new_file_path)
     return True

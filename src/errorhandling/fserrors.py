@@ -31,14 +31,14 @@ class NoVideosInDirError(FileError):
         super().__init__(f"No videos in {path}")
         
 
-class NotMP4Error(FileError):
-    """Error if file is not mp4
+class NotVideoError(FileError):
+    """Error if file is not mp4 or braw
 
     Args:
         FileError (path): Path to file to check
     """
     def __init__(self, path):
-        super().__init__(f"{path} is not an MP4")
+        super().__init__(f"{path} is not an MP4 or BRAW")
         
 
 class FileAlreadyExistsError(FileError):

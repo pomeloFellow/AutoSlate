@@ -24,6 +24,8 @@
 - [x] File system (open,rename,text->filename)
 - [ ] Audio processor
     - [x] Get audio
+        - [x] .mp4
+        - [ ] .braw
     - [x] Preprocessing (Noise Reduction)
     - [x] Detect slate clap
     - [x] Find slate call
