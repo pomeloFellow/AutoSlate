@@ -5,7 +5,7 @@ import math
 import src.errorhandling.audioerrors as audioerror
 
 # whisper
-def transcribe(audio, clipping_time):
+def transcribe(audio, end_time, start_time=0):
     """Uses whisper to transcribe audio numpy buffer from start to clip time
 
     Args:
@@ -15,8 +15,8 @@ def transcribe(audio, clipping_time):
     Returns:
         _type_: _description_
     """
-    start_sec = 0.0
-    end_sec = clipping_time
+    start_sec = start_time
+    end_sec = end_time
     start_sample = int(start_sec * 16000)
     end_sample = int(end_sec * 16000)
     audio_slice = audio[start_sample:end_sample].astype(np.float32)

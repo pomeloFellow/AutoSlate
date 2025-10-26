@@ -5,7 +5,7 @@ import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
 import src.core.audiopipeline as ap
 
-def relabel_videos(input_folder):
+def relabel_videos(input_folder, start_time=0, min_time=-1):
     # check if input_folder is directory
     util.log(input_folder)
     fs.is_dir(input_folder)
@@ -19,7 +19,8 @@ def relabel_videos(input_folder):
     for video_path in video_paths:
         isMP4 = True if video_path.suffix == ".mp4" else False
         # get audio info (label, confidence)
-        audio_text, confidence = ap.get_text_from_audio(video_path, isMP4)
+        
+        audio_text, confidence = ap.get_text_from_audio(video_path, isMP4, start_time, min_time)
 
         # get video info (label, confidence)
 
