@@ -4,26 +4,35 @@ import src.filesys.files as fs
 import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
 import src.core.audiopipeline as ap
+from pathlib import Path
 
-def relabel_videos(input_folder, start_time=0, min_time=-1):
+def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
     # check if input_folder is directory
-    util.log(input_folder)
-    fs.is_dir(input_folder)
+    util.log(input)
 
-    # make array of video posixpaths
-    video_paths = fs.video_paths_in_folder(input_folder)
-    util.log(video_paths)
+    input_path = Path(input)
 
-    # for every video path
-    # assumes video_paths_in_folder() "checks" files are videos
-    for video_path in video_paths:
-        isMP4 = True if video_path.suffix == ".mp4" else False
-        # get audio info (label, confidence)
-        
-        audio_text, confidence = ap.get_text_from_audio(video_path, isMP4, start_time, min_time)
+    if input_path.is_file():
+        process_video(input_path, start_time, min_time, min_confidence)
+    elif input_path.is_dir():
+        video_files = list(input_path.rglob("*"))
+        for file_path in video_files:
+            if file_path.suffix.lower() in {".mp4", ".braw"}:
+                process_video(file_path, start_time, min_time, min_confidence)
 
-        # get video info (label, confidence)
+def process_video(video_path, start_time, min_time, min_confidence):
+    isMP4 = True if video_path.suffix == ".mp4" else False
+    # get audio info (label, confidence)
+    
+    audio_text, confidence = ap.get_text_from_audio(video_path, isMP4, start_time, min_time)
+    if min_confidence != -1 and confidence < min_confidence:
+        util.log("Did not reach min confidence.")
+        util.log(f"Avg confidence: {confidence}")
+        return False
 
-        # relabel video
-        new_label = fs.text_to_file_name(audio_text)
-        fs.rename_video(video_path, new_label + video_path.suffix)
+    # get video info (label, confidence)
+
+    # relabel video
+    new_label = fs.text_to_file_name(audio_text)
+    fs.rename_video(video_path, new_label + video_path.suffix)
+    return True

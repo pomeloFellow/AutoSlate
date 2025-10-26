@@ -41,10 +41,20 @@ def total_weighted_audio_confidence(whisper_result):
     segments = whisper_result.get("segments", [])
     if not segments:
         return 0.0 
+    
+    keywords = {"shot", "scene", "take"}
 
+    filtered_segments = [
+        seg for seg in segments
+        if any(word in seg.get("text", "").lower() for word in keywords)
+    ]
+
+    if not filtered_segments:
+        return 0.0
+    
     weighted_sum = 0.0
     total_duration = 0.0
-    for seg in segments:
+    for seg in filtered_segments:
         duration = seg["end"] - seg["start"]
         total_duration += duration
         weighted_sum += seg["avg_logprob"] * duration
