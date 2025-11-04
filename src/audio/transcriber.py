@@ -4,14 +4,15 @@ import math
 
 # whisper
 def transcribe(audio, end_time, start_time=0):
-    """Uses whisper to transcribe audio numpy buffer from start to clip time
+    """Uses whisper to transcribe audio numpy buffer from start to endtime
 
     Args:
-        audio (numpy buffer): Buffer holding audio information
-        clipping_time (int): Time in sec to end transcription
+        audio (numpy float32 buffer): Buffer holding audio information
+        end_time: Time to transcribe till
+        start_time: Time to start transcription
 
     Returns:
-        _type_: _description_
+        string: transcription
     """
     start_sec = start_time
     end_sec = end_time
@@ -28,7 +29,7 @@ def transcribe(audio, end_time, start_time=0):
     return result
 
 def total_weighted_audio_confidence(whisper_result):
-    """Calculates the weighted avg log probability of all whisper_result segments
+    """Calculates the weighted avg log probability of all whisper_result segments that contains "scene" "shot" "take"
 
     Args:
         whisper_result (dict): dict result from whisper transcription

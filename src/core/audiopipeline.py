@@ -6,7 +6,9 @@ def get_text_from_audio(video_path, ismp4, start_time = 0, min_time = -1):
 
     Args:
         video_path (PosixPath): video path to grab text with
-        ismp4 (bool): _description_
+        ismp4 (bool): if audio file is mp4 or braw
+        start_time: time to start transcription
+        min_time: minimum time to transcribe
 
     Returns:
         string: String from whisper

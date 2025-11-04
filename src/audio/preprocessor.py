@@ -5,6 +5,14 @@ import noisereduce as nr
 from scipy.signal import butter, sosfilt
 
 def preprocess_audio(raw_audio):
+    """Applies audio filters to make it easier for whisper to transcribe audio correctly
+
+    Args:
+        raw_audio (numpy float 32 array): numpy audio buffer
+
+    Returns:
+        _type_: numpy float 32 array
+    """
     denoised_audio = denoise_raw_audio(raw_audio)
     bandpassed_audio = bandpass_audio(denoised_audio)
     final_audio = normalize_raw_audio(bandpassed_audio)
@@ -13,6 +21,17 @@ def preprocess_audio(raw_audio):
 
 
 def MP4_extract_raw_audio(path):
+    """_summary_
+
+    Args:
+        path (string): path of video file to convert to audio buffer
+
+    Raises:
+        ValueError: resulting array is empty
+
+    Returns:
+        numpy float 32 array: numpy audio buffer
+    """
     ffmpeg_output, _ =  (
         ffmpeg.input(path)
         .output("pipe:", format="s16le", acodec="pcm_s16le", ac=1, ar="16000")
@@ -25,6 +44,17 @@ def MP4_extract_raw_audio(path):
 
 
 def normalize_raw_audio(raw_audio): 
+    """ Normalize raw audio buffer
+
+    Args:
+        raw_audio (numpy float 32 array): Audio buffer
+
+    Raises:
+        ValueError: Audio buffer empty
+
+    Returns:
+        numpy float 32 array: Normalized audio buffer
+    """
     if raw_audio.size == 0:
         raise ValueError("Audio buffer is empty")
     min_val = np.min(raw_audio)
@@ -34,6 +64,19 @@ def normalize_raw_audio(raw_audio):
     return normalized_audio
 
 def denoise_raw_audio(raw_audio):
+    """Denoises raw audio buffer
+
+    Args:
+        raw_audio (numpy float 32 array): audio buffer
+
+    Raises:
+        ValueError: Audio buffer empty
+        ValueError: Audio has infinite values
+        ValueError: Audio buffer too small to denoise
+
+    Returns:
+        numpy float 32 array: Denoised audio buffer
+    """
     if raw_audio.size == 0:
         raise ValueError("Audio buffer is empty")
     if not np.all(np.isfinite(raw_audio)):
@@ -44,6 +87,20 @@ def denoise_raw_audio(raw_audio):
 
 
 def bandpass_audio(audio, sr=16000, low=80, high=7600):
+    """Band passes audio buffer
+
+    Args:
+        audio (numpy float 32 array): audio buffer
+        sr (int, optional): sample rate. Defaults to 16000.
+        low (int, optional): lowpass filter frequency. Defaults to 80.
+        high (int, optional): highpass filter frequenct. Defaults to 7600.
+
+    Raises:
+        ValueError: Audio buffer empty
+
+    Returns:
+        numpy float 32 array: band passed audio buffer
+    """
     if audio.size == 0:
         raise ValueError("Audio buffer is empty")
     sos = butter(4, [low, high], btype='band', fs=sr, output='sos')
@@ -53,15 +110,45 @@ def bandpass_audio(audio, sr=16000, low=80, high=7600):
 
 # find clipping timestamp, return sec
 def find_clipping_sec(audio, threshold = 0.99):
+    """Returns array of timestamps(sec) where audio clips
+
+    Args:
+        audio (numpy float32 array): Audio buffer
+        threshold (float, optional): What value is considered clipping. Defaults to 0.99.
+
+    Raises:
+        ValueError: Audio buffer is empty
+
+    Returns:
+        Array: Timestamps(sec) where audio clips
+    """
     if audio.size == 0:
         raise ValueError("Audio buffer is empty")
     peaks_idx = np.where(np.abs(audio) >= threshold)[0]
     return peaks_idx / 16000
 
 def find_length_sec(audio, sample_rate=16000):
+    """Returns length(sec) of audio buffer
+
+    Args:
+        audio (numpy float32 array): audio buffer
+        sample_rate (int, optional): sample rate of buffer. Defaults to 16000.
+
+    Returns:
+        int: length of audio
+    """
     return len(audio) / sample_rate
 
 def find_end_time(audio, min_time):
+    """Returns end time(sec) used for transcription
+
+    Args:
+        audio (numpy float32 array): audio buffer
+        min_time (int): -1 = use clip time, -2 use full length, >0 use min_time
+
+    Returns:
+        _type_: _description_
+    """
     utils.log("Enters find_end_time")
     end_time = None
     if min_time == -1: # use clip_time

@@ -39,6 +39,14 @@ def video_paths_in_folder(folder_path):
         return video_paths
 
 def convert_part(s):
+    """Converts number to string
+
+    Args:
+        s (string): string to convert
+
+    Returns:
+        string: converted string
+    """
     s = s.split()
     ret_arr = []
     for token in s:
@@ -51,6 +59,14 @@ def convert_part(s):
     return res_str
 
 def text_to_file_name(text):
+    """Converts whisper text to file name
+
+    Args:
+        text (string): string to convert
+
+    Returns:
+        string: file name
+    """
     clean_text = re.sub(r"[.,]", "", text.lower())
 
     pattern = r"scene\s+(.+?)\s+shot\s+(.+?)\s+take\s+(.+)"

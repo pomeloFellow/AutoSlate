@@ -5,6 +5,14 @@ import src.core.audiopipeline as ap
 from pathlib import Path
 
 def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
+    """Relabels input videos
+
+    Args:
+        input (string): video or directory path
+        start_time (int, optional): Time to start transcription. Defaults to 0.
+        min_time (int, optional): Minimum time to end transcription. Defaults to -1.
+        min_confidence (int, optional): Minimum confidene allowed. Defaults to -1.
+    """
     # check if input_folder is directory
     util.log(input)
 
@@ -19,6 +27,17 @@ def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
                 process_video(file_path, start_time, min_time, min_confidence)
 
 def process_video(video_path, start_time, min_time, min_confidence):
+    """Processes a single video
+
+    Args:
+        video_path (string): video path
+        start_time (int, optional): Time to start transcription. Defaults to 0.
+        min_time (int, optional): Minimum time to end transcription. Defaults to -1.
+        min_confidence (int, optional): Minimum confidene allowed. Defaults to -1.
+
+    Returns:
+        bool: success
+    """
     isMP4 = True if video_path.suffix == ".mp4" else False
     # get audio info (label, confidence)
     

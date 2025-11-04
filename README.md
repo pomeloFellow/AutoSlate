@@ -22,6 +22,7 @@
 
 # Dev Road Map
 - [x] File system (open,rename,text->filename)
+- [ ] GUI
 - [ ] Audio processor
     - [x] Get audio
         - [x] .mp4
