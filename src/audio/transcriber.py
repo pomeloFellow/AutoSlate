@@ -1,11 +1,9 @@
-import src.audio.preprocessor as preprocessor
 import numpy as np
 import whisper as whisper
 import math
-import src.errorhandling.audioerrors as audioerror
 
 # whisper
-def transcribe(audio, clipping_time):
+def transcribe(audio, end_time, start_time=0):
     """Uses whisper to transcribe audio numpy buffer from start to clip time
 
     Args:
@@ -15,8 +13,8 @@ def transcribe(audio, clipping_time):
     Returns:
         _type_: _description_
     """
-    start_sec = 0.0
-    end_sec = clipping_time
+    start_sec = start_time
+    end_sec = end_time
     start_sample = int(start_sec * 16000)
     end_sample = int(end_sec * 16000)
     audio_slice = audio[start_sample:end_sample].astype(np.float32)
@@ -26,7 +24,7 @@ def transcribe(audio, clipping_time):
                               language='en',
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
     if "scene" not in result["text"] or "shot" not in result["text"] or "take" not in result["text"]:
-        raise audioerror.TranscriberError(f"Unable to get all necessary information.")
+        raise ValueError("Unable to get all information (scene, shot, take)")
     return result
 
 def total_weighted_audio_confidence(whisper_result):
@@ -41,10 +39,20 @@ def total_weighted_audio_confidence(whisper_result):
     segments = whisper_result.get("segments", [])
     if not segments:
         return 0.0 
+    
+    keywords = {"shot", "scene", "take"}
 
+    filtered_segments = [
+        seg for seg in segments
+        if any(word in seg.get("text", "").lower() for word in keywords)
+    ]
+
+    if not filtered_segments:
+        return 0.0
+    
     weighted_sum = 0.0
     total_duration = 0.0
-    for seg in segments:
+    for seg in filtered_segments:
         duration = seg["end"] - seg["start"]
         total_duration += duration
         weighted_sum += seg["avg_logprob"] * duration
@@ -65,5 +73,5 @@ def get_text(whisper_result):
     """
     text = whisper_result.get('text', None)
     if not text:
-        raise audioerror.TranscriberError("No text key in result")
+        raise KeyError("No text key in whisper result")
     return text
