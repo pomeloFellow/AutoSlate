@@ -1,4 +1,3 @@
-import src.utils.utils as util
 import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
 

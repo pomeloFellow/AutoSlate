@@ -1,8 +1,6 @@
 # core util.logic
 import src.utils.utils as util
 import src.filesys.files as fs
-import src.audio.preprocessor as preprocessor
-import src.audio.transcriber as transcriber
 import src.core.audiopipeline as ap
 from pathlib import Path
 

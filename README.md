@@ -38,5 +38,6 @@
     - [ ] Rely on video cue only
     - [ ] Rely on audio cue only
     - [ ] Accept only above a certain confidence for video
-    - [ ] Accept only above a certain confidence for audio
-    - [ ] Print confidence for each video
+    - [x] Accept only above a certain confidence for audio
+    - [x] Print confidence for each video
+    - [x] User set time chunk to check

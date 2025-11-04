@@ -1,8 +1,6 @@
-import src.audio.preprocessor as preprocessor
 import numpy as np
 import whisper as whisper
 import math
-import src.errorhandling.audioerrors as audioerror
 
 # whisper
 def transcribe(audio, end_time, start_time=0):
@@ -26,7 +24,7 @@ def transcribe(audio, end_time, start_time=0):
                               language='en',
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
     if "scene" not in result["text"] or "shot" not in result["text"] or "take" not in result["text"]:
-        raise audioerror.TranscriberError(f"Unable to get all necessary information.")
+        raise ValueError("Unable to get all information (scene, shot, take)")
     return result
 
 def total_weighted_audio_confidence(whisper_result):
@@ -75,5 +73,5 @@ def get_text(whisper_result):
     """
     text = whisper_result.get('text', None)
     if not text:
-        raise audioerror.TranscriberError("No text key in result")
+        raise KeyError("No text key in whisper result")
     return text
