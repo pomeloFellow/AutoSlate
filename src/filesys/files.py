@@ -13,7 +13,7 @@ def is_dir(folder_path):
     Returns:
         bool: if folder_path is a directory
     """
-    p = Path(folder_path)
+    p = Path(folder_path).expanduser().resolve(strict=False)
     if not p.is_dir():
         raise TypeError("Path is not a directory")
     
@@ -31,7 +31,7 @@ def video_paths_in_folder(folder_path):
     Returns:
         array: array of posix paths of .mp4 and .braw videos
     """
-    p = Path(folder_path)
+    p = Path(folder_path).expanduser().resolve(strict=False)
     video_paths = list(p.glob('**/*.mp4')) + list(p.glob('**/*.braw'))
     if not video_paths:
         raise ValueError("No .mp4 or .braw files in folder")

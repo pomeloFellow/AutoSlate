@@ -18,6 +18,7 @@
 `sudo apt install ffmpeg -y`
 
 ## Run from root
+NOTE: BE AWARE OF "/" or "\" convention
 `python -m src.main -i "<input folder>"`
 
 # Dev Road Map

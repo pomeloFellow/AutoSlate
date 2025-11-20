@@ -16,14 +16,18 @@ def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
     # check if input_folder is directory
     util.log(input)
 
-    input_path = Path(input)
+    input_path = Path(input).expanduser().resolve(strict=False)
 
     if input_path.is_file():
+        util.log("Goes to is file")
         process_video(input_path, start_time, min_time, min_confidence)
     elif input_path.is_dir():
+        util.log("Goes to is dir")
         video_files = list(input_path.rglob("*"))
+        util.log(video_files)
         for file_path in video_files:
             if file_path.suffix.lower() in {".mp4", ".braw"}:
+                util.log("Is mp4 or braw")
                 process_video(file_path, start_time, min_time, min_confidence)
 
 def process_video(video_path, start_time, min_time, min_confidence):
@@ -38,6 +42,7 @@ def process_video(video_path, start_time, min_time, min_confidence):
     Returns:
         bool: success
     """
+    util.log("In processes_video")
     isMP4 = True if video_path.suffix == ".mp4" else False
     # get audio info (label, confidence)
     

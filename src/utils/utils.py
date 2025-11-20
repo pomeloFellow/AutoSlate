@@ -47,7 +47,7 @@ def plot_waveform_with_peaks(audio, threshold=0.99, sample_rate=16000):
     plt.tight_layout()
 
     # Ensure output directory exists
-    output_dir = Path("test/waveforms")
+    output_dir = Path("test/waveforms").expanduser().resolve(strict=False)
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Generate random filename and save
