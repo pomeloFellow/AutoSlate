@@ -1,0 +1,39 @@
+MODULE = braw_extension
+
+PYTHON = python3
+CXX = g++
+CXXFLAGS = -O3 -Wall -std=c++17 -fPIC -I$(SDK_INCLUDE) -Ibindings
+
+# Pybind11 specific flags
+PY_INCLUDES := $(shell $(PYTHON) -m pybind11 --includes)
+PY_EXT_SUFFIX := $(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX'))")
+
+# Paths
+SDK_INCLUDE = blackmagic_sdk/linux/include
+SDK_LIB = blackmagic_sdk/linux/lib
+SRC_DIR = bindings
+
+# Sources: Your files + the Blackmagic Dispatcher
+SRCS := $(wildcard $(SRC_DIR)/*.cpp) $(SDK_INCLUDE)/BlackmagicRawAPIDispatch.cpp
+
+# This ensures object files are created in the current directory 
+# even if the source is in a different folder
+OBJS := $(notdir $(SRCS:.cpp=.o))
+
+TARGET = $(MODULE)$(PY_EXT_SUFFIX)
+
+all: $(TARGET)
+
+# The Linking Step
+# Added -ldl (Dynamic Loader) and ensured the library name matches the API file
+$(TARGET): $(OBJS)
+	$(CXX) -shared $(OBJS) -L$(SDK_LIB) -lBlackmagicRawAPI -o $@ -Wl,-rpath,'$$ORIGIN/$(SDK_LIB)' -ldl
+
+# Rules to find sources in different directories
+vpath %.cpp $(SRC_DIR) $(SDK_INCLUDE)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(PY_INCLUDES) -c $< -o $@
+
+clean:
+	rm -f *.o $(TARGET)

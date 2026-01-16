@@ -9,7 +9,7 @@ py::array_t<float> BRAW_extract_wrapper(const std::string& path) {
     return BRAW_extract_raw_audio(const_cast<char*>(path.c_str()));
 }
 
-PYBIND11_MODULE(braw, m) {
+PYBIND11_MODULE(braw_extension, m) {
     m.doc() = "Python bindings for BRAW audio extraction";
 
     m.def(

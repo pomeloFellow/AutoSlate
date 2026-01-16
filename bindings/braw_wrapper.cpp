@@ -2,6 +2,7 @@
 
 #include "BlackmagicRawAPI.h"
 #include "braw_wrapper.h"
+#include "platform_paths.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -136,9 +137,13 @@ py::array_t<float> BRAW_extract_raw_audio(const std::string &clipName){
 	IBlackmagicRawClip* clip = nullptr;
 	IBlackmagicRawClipAudio* audio = nullptr;
 
+    py::array_t<float> audiobuffer;
+
     do
 	{
-		factory = CreateBlackmagicRawFactoryInstanceFromPath(BRAW_LIB_PATH.c_str());
+        const std::string path_str = BRAW_LIB_PATH;
+        const char* c_path_str = path_str.c_str();
+		factory = CreateBlackmagicRawFactoryInstanceFromPath(c_path_str);
 		if (factory == nullptr)
 		{
 			std::cerr << "Failed to create IBlackmagicRawFactory!" << std::endl;
@@ -166,7 +171,7 @@ py::array_t<float> BRAW_extract_raw_audio(const std::string &clipName){
 			break;
 		}
 
-        py::array_t<float> audiobuffer;
+        
 		audiobuffer = OutputAudioArray(audio, result);
 
 	} while(0);

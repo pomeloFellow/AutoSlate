@@ -1,0 +1,28 @@
+MODULE = braw_extension
+
+PYTHON = python3
+CXX = clang++
+CXXFLAGS = -O3 -Wall -std=c++17 -fPIC -shared
+
+PY_INCLUDES := $(shell $(PYTHON) -m pybind11 --includes)
+PY_EXT_SUFFIX := $(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX'))")
+
+SRC_DIR = bindings
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+OBJS := $(SRCS:.cpp=.o)
+
+SDK_INCLUDE = blackmagic_sdk/macos/include
+SDK_LIB = blackmagic_sdk/macos/lib
+
+TARGET = $(MODULE)$(PY_EXT_SUFFIX)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -L$(SDK_LIB) -lBlackmagicRaw -o $@
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(PY_INCLUDES) -I$(SDK_INCLUDE) -Ibindings -c $< -o $@
+
+clean:
+	rm -f $(OBJS) $(TARGET)

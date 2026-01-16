@@ -1,6 +1,8 @@
 import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
 
+import braw_extension as braw
+
 def get_text_from_audio(video_path, ismp4, start_time = 0, min_time = -1):
     """Gets text based on audio from video from path
 
@@ -16,6 +18,8 @@ def get_text_from_audio(video_path, ismp4, start_time = 0, min_time = -1):
     """
     if (ismp4):
         raw_audio = preprocessor.MP4_extract_raw_audio(video_path)
+    else:
+        raw_audio = braw.BRAW_extract_raw_audio(str(video_path))
     
     audio = preprocessor.preprocess_audio(raw_audio)
     end_time = preprocessor.find_end_time(audio, min_time)

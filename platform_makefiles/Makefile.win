@@ -1,0 +1,26 @@
+MODULE = braw_extension
+PYTHON = py
+
+SRC_DIR = bindings
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+
+# Call python to get suffix (e.g. .pyd)
+PY_EXT_SUFFIX = $(shell $(PYTHON) -c "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX'))")
+
+SDK_INCLUDE = blackmagic_sdk/windows/include
+SDK_LIB = blackmagic_sdk/windows/lib
+
+TARGET = $(MODULE)$(PY_EXT_SUFFIX)
+
+# Compiler flags—MSVC syntax
+CXX = cl.exe
+CXXFLAGS = /O2 /EHsc /LD
+INCLUDES = /I $(SDK_INCLUDE) /I bindings /I $(shell $(PYTHON) -m pybind11 --includes)
+
+LIBFLAGS = /link /LIBPATH:$(SDK_LIB) BlackmagicRaw.lib
+
+all:
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SRCS) $(LIBFLAGS) /OUT:$(TARGET)
+
+clean:
+	del /Q *.obj *.exp *.lib $(TARGET)

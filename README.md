@@ -21,6 +21,12 @@
 NOTE: BE AWARE OF "/" or "\" convention
 `python -m src.main -i "<input folder>"`
 
+## Building braw python module
+Linux/macOS
+`make`
+Windows
+`nmake /f Makefile.win`
+
 # Dev Road Map
 - [x] File system (open,rename,text->filename)
 - [ ] GUI
