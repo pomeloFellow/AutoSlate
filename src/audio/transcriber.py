@@ -1,6 +1,7 @@
 import numpy as np
 import whisper as whisper
 import math
+import src.utils.utils as utils
 
 # whisper
 def transcribe(audio, end_time, start_time=0):
@@ -24,8 +25,12 @@ def transcribe(audio, end_time, start_time=0):
                               fp16=False,
                               language='en',
                               initial_prompt='Speaker is saying the scene, shot, and take of the video')
-    if "scene" not in result["text"] or "shot" not in result["text"] or "take" not in result["text"]:
+    lower_case_result = result["text"].lower()
+
+    if "scene" not in lower_case_result or "shot" not in lower_case_result or "take" not in lower_case_result:
+        utils.log("Whisper result: " + lower_case_result)
         raise ValueError("Unable to get all information (scene, shot, take)")
+    
     return result
 
 def total_weighted_audio_confidence(whisper_result):

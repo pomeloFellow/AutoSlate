@@ -191,5 +191,7 @@ py::array_t<float> BRAW_extract_raw_audio(const std::string &clipName){
     if (result != S_OK)
         throw std::runtime_error("Failed to extract audio");
 
+    std::cout << "BRAW_extract_raw_audio() ran" << '\n';
+
     return audiobuffer;
 }

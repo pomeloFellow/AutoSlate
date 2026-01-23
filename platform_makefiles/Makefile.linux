@@ -27,7 +27,7 @@ all: $(TARGET)
 # The Linking Step
 # Added -ldl (Dynamic Loader) and ensured the library name matches the API file
 $(TARGET): $(OBJS)
-	$(CXX) -shared $(OBJS) -L$(SDK_LIB) -lBlackmagicRawAPI -o $@ -Wl,-rpath,'$$ORIGIN/$(SDK_LIB)' -ldl
+	$(CXX) -shared $(OBJS) -L$(SDK_LIB) -lBlackmagicRawAPI -o $@ -Wl,-rpath,'$$ORIGIN'
 
 # Rules to find sources in different directories
 vpath %.cpp $(SRC_DIR) $(SDK_INCLUDE)
