@@ -1,8 +1,15 @@
 # entry point for application
 from src.core.core import relabel_videos
 import argparse
+import src.gui.gui as gui
 
+# GUI_MAIN
+def gui_main():
+    print("GUI MAIN RUN")
+    gui.window.mainloop()
+    pass
 
+# Used for CLI
 def main():
     parser = argparse.ArgumentParser(
                         prog='AutoSlate',
