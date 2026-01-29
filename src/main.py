@@ -1,13 +1,12 @@
 # entry point for application
 from src.core.core import relabel_videos
 import argparse
-import src.gui.gui as gui
+from src.gui.app import App
 
 # GUI_MAIN
 def gui_main():
     print("GUI MAIN RUN")
-    gui.window.mainloop()
-    pass
+    App().mainloop()
 
 # Used for CLI
 def main():
@@ -29,4 +28,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    gui_main()
