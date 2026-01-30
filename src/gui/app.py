@@ -32,7 +32,7 @@ class App(tk.Tk):
         self.pages["main"] = StartPage(
             self.content_frame,
             self.state,
-            show_settings=lambda: self.show_page("settings")
+            # show_settings=lambda: self.show_page("settings")
         )
 
         for page in self.pages.values():
