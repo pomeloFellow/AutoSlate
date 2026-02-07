@@ -19,7 +19,8 @@
 
 ## Run from root
 NOTE: BE AWARE OF "/" or "\" convention
-`python -m src.main -i "<input folder>"`
+cli: `python -m src.main -i "<input folder>"`
+gui: `python -m src.main`
 
 ## Building braw python module
 Linux/macOS
@@ -30,10 +31,10 @@ Windows
 # Dev Road Map
 - [x] File system (open,rename,text->filename)
 - [ ] GUI
-- [ ] Audio processor
+- [x] Audio processor
     - [x] Get audio
         - [x] .mp4
-        - [ ] .braw
+        - [x] .braw
     - [x] Preprocessing (Noise Reduction)
     - [x] Detect slate clap
     - [x] Find slate call

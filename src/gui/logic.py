@@ -1,3 +1,5 @@
+from src.core.core import relabel_videos
+from src.utils.utils import log
 from tkinter import filedialog
 
 def browse_folder(state):
@@ -6,13 +8,24 @@ def browse_folder(state):
         state.folder_path.set(folder)
         update_folder_button_text(state)
 
-def relabel_videos(state):
-    folderpath_str = state.folder_path.get()
-    print("Folderpath:", folderpath_str)
-
 def update_folder_button_text(state):
     path = state.folder_path.get()
     if path:
         state.folder_button_text.set(path)
     else:
         state.folder_button_text.set("File / Folder")
+
+def relabel_videos(state):
+    folder_path_str = state.folder_path.get()
+    start_time = state.start_time.get()
+    min_time = state.min_time.get()
+    min_confidence = state.min_confidence.get()
+
+    log("folder: " + folder_path_str)
+    log("start_time: " + start_time)
+    log("min_time: " + min_time)
+    log("min_confidence: " + min_confidence)
+
+    # relabel_videos(folder_path_str, start_time, min_time, min_confidence)
+
+

@@ -4,6 +4,7 @@ import ttkthemes
 
 from src.gui.state import AppState
 from src.gui.pages.start import StartPage
+from src.gui.pages.progress import ProgressPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -29,12 +30,19 @@ class App(tk.Tk):
 
         self.pages = {}
 
+        # defining pages
         self.pages["main"] = StartPage(
             self.content_frame,
             self.state,
-            # show_settings=lambda: self.show_page("settings")
+            to_progress_bar=lambda: self.show_page("progress"),
         )
 
+        self.pages["progress"] = ProgressPage(
+            self.content_frame,
+            self.state,
+        )
+
+        # placing pages
         for page in self.pages.values():
             page.grid(row=0, column=0, sticky="nsew")
 

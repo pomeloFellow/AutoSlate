@@ -2,7 +2,7 @@ from tkinter import ttk
 import src.gui.logic as logic
 
 class StartPage(ttk.Frame):
-    def __init__(self, parent, state):
+    def __init__(self, parent, state, to_progress_bar):
         super().__init__(parent)
         self.state = state
 
@@ -41,7 +41,7 @@ class StartPage(ttk.Frame):
         ttk.Button(
             buttons_frame,
             text="Relabel Videos",
-            command=lambda: logic.relabel_videos(state)
+            command=to_progress_bar
         ).grid(row=1, column=0, sticky="ew", pady=(0, 10))
 
         ttk.Button(

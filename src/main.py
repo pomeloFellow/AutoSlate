@@ -24,8 +24,8 @@ def main():
     args = parser.parse_args()
 
     # core logic
-    relabel_videos(args.input, int(args.start_time), int(args.min_time), float(args.min_confidence))
+    relabel_videos(args.input, float(args.start_time), float(args.min_time), float(args.min_confidence))
 
 
 if __name__ == "__main__":
-    gui_main()
+    main()
