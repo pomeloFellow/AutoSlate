@@ -23,5 +23,8 @@ class ProgressPage(ttk.Frame):
                                        length=100, mode='determinate')
         
         progress_bar.pack(pady=10)
+    
+    def on_show(self):
+        logic.relabel_videos(self.state)
         
         

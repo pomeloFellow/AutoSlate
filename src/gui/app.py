@@ -49,4 +49,8 @@ class App(tk.Tk):
         self.show_page("main")
 
     def show_page(self, name):
-        self.pages[name].tkraise()
+        page = self.pages[name]
+        page.tkraise()
+        
+        if hasattr(page, "on_show"):
+            page.on_show()

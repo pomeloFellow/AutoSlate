@@ -21,10 +21,10 @@ def relabel_videos(state):
     min_time = state.min_time.get()
     min_confidence = state.min_confidence.get()
 
-    log("folder: " + folder_path_str)
-    log("start_time: " + start_time)
-    log("min_time: " + min_time)
-    log("min_confidence: " + min_confidence)
+    log("folder: " + str(folder_path_str))
+    log("start_time: " + str( start_time))
+    log("min_time: " + str(min_time))
+    log("min_confidence: " + str(min_confidence))
 
     # relabel_videos(folder_path_str, start_time, min_time, min_confidence)
 
