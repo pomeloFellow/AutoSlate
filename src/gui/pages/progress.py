@@ -1,5 +1,5 @@
 from tkinter import ttk
-import src.gui.logic as logic
+import src.gui.logic.logic as logic
 
 class ProgressPage(ttk.Frame):
     def __init__(self, parent, state):
@@ -19,12 +19,12 @@ class ProgressPage(ttk.Frame):
         inner_frame.pack(expand=True, fill="both")
 
         # progress bar
-        progress_bar = ttk.Progressbar(inner_frame, orient="horizontal", 
+        progress_bar = ttk.Progressbar(inner_frame, variable=state.progress_bar_value orient="horizontal", 
                                        length=100, mode='determinate')
         
         progress_bar.pack(pady=10)
     
     def on_show(self):
-        logic.relabel_videos(self.state)
+        logic.progress_page_shown(self.state)
         
         

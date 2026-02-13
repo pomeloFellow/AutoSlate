@@ -1,5 +1,5 @@
 from tkinter import ttk
-import src.gui.logic as logic
+import src.gui.logic.logic as logic
 
 class StartPage(ttk.Frame):
     def __init__(self, parent, state, to_progress_bar):

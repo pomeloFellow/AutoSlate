@@ -2,6 +2,9 @@ import tkinter as tk
 
 class AppState:
     def __init__(self):
+        super().__init__()
+        self.root = self
+
         # folder/file
         self.folder_path = tk.StringVar()
         self.folder_button_text = tk.StringVar(value="File / Folder")
@@ -12,4 +15,7 @@ class AppState:
         self.min_confidence = tk.DoubleVar(value=-1.0) # default: no min
 
         # progress
+        self.progress_bar_value = tk.IntVar()
+        self.progress_text = tk.StringVar()
+        self.progress_report = None
 
