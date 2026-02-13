@@ -3,8 +3,9 @@ import src.utils.utils as util
 import src.filesys.files as fs
 import src.core.audiopipeline as ap
 from pathlib import Path
+import src.gui.logic.ProgressReport as pr
 
-def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
+def relabel_videos(input, progress_report, start_time=0, min_time=-1, min_confidence=-1):
     """Relabels input videos
 
     Args:
@@ -20,17 +21,24 @@ def relabel_videos(input, start_time=0, min_time=-1, min_confidence=-1):
 
     if input_path.is_file():
         util.log("Goes to is file")
+
+        # set progress report total
+        progress_report.set_total(1)
         process_video(input_path, start_time, min_time, min_confidence)
+
     elif input_path.is_dir():
         util.log("Goes to is dir")
         video_files = list(input_path.rglob("*"))
         util.log(video_files)
+
+        # set progress report total
+        progress_report.set_total(len(video_files))
         for file_path in video_files:
             if file_path.suffix.lower() in {".mp4", ".braw"}:
                 util.log("Is mp4 or braw")
-                process_video(file_path, start_time, min_time, min_confidence)
+                process_video(file_path, start_time, min_time, min_confidence, progress_report)
 
-def process_video(video_path, start_time, min_time, min_confidence):
+def process_video(video_path, start_time, min_time, min_confidence, progress_report):
     """Processes a single video
 
     Args:
@@ -46,7 +54,7 @@ def process_video(video_path, start_time, min_time, min_confidence):
     isMP4 = True if video_path.suffix == ".mp4" else False
     # get audio info (label, confidence)
     
-    audio_text, confidence = ap.get_text_from_audio(video_path, isMP4, start_time, min_time)
+    audio_text, confidence = ap.get_text_from_audio(video_path, isMP4, progress_report, start_time, min_time)
     if min_confidence != -1 and confidence < min_confidence:
         util.log("Did not reach min confidence.")
         util.log(f"Avg confidence: {confidence}")
@@ -57,4 +65,9 @@ def process_video(video_path, start_time, min_time, min_confidence):
     # relabel video
     new_label = fs.text_to_file_name(audio_text)
     fs.rename_video(video_path, new_label + video_path.suffix)
+
+    curr_stage = pr.ProgressReport.Stage.FIN_RENAME
+    progress_report.update_progress(curr_stage)
+    progress_report.on_progress(progress_report.percent, curr_stage)
+
     return True

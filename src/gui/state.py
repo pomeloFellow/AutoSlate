@@ -1,9 +1,9 @@
 import tkinter as tk
 
 class AppState:
-    def __init__(self):
+    def __init__(self, root):
         super().__init__()
-        self.root = self
+        self.root = root
 
         # folder/file
         self.folder_path = tk.StringVar()

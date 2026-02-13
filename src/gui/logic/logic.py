@@ -1,7 +1,7 @@
 import src.core.core as core
 from src.utils.utils import log
 from tkinter import filedialog
-import src.gui.logic.pr as pr
+import src.gui.logic.ProgressReport as pr
 import threading
 
 def browse_folder(state):
@@ -38,6 +38,7 @@ def progress_page_shown(state):
 
 def update_ui(state, percent, stage):
     state.progress_bar_value.set(percent)
+    log("Progress Value: " + str(percent))
 
     match stage:
         case pr.ProgressReport.Stage.FIN_EXTRACT:
@@ -54,16 +55,20 @@ def update_ui(state, percent, stage):
 
     
 def relabel_videos(state):
+    log("UI Relabel Process Started")
     folder_path_str = state.folder_path.get()
     start_time = state.start_time.get()
     min_time = state.min_time.get()
     min_confidence = state.min_confidence.get()
+    progress_report = state.progress_report
 
     log("folder: " + str(folder_path_str))
     log("start_time: " + str( start_time))
     log("min_time: " + str(min_time))
     log("min_confidence: " + str(min_confidence))
 
-    # core.relabel_videos(folder_path_str, start_time, min_time, min_confidence) haven't set up for progess stuff
+    # need to pass progress report to use callback
+
+    core.relabel_videos(folder_path_str, progress_report, start_time, min_time, min_confidence)
 
 

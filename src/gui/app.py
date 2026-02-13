@@ -17,7 +17,7 @@ class App(tk.Tk):
         style = ttkthemes.ThemedStyle(self)
         style.theme_use("equilux")
 
-        self.state = AppState()
+        self.state = AppState(self)
 
         self.grid_rowconfigure(0, weight=1)
         self.grid_columnconfigure(0, weight=1)

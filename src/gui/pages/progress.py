@@ -19,7 +19,7 @@ class ProgressPage(ttk.Frame):
         inner_frame.pack(expand=True, fill="both")
 
         # progress bar
-        progress_bar = ttk.Progressbar(inner_frame, variable=state.progress_bar_value orient="horizontal", 
+        progress_bar = ttk.Progressbar(inner_frame, variable=state.progress_bar_value, orient="horizontal", 
                                        length=100, mode='determinate')
         
         progress_bar.pack(pady=10)
