@@ -16,14 +16,19 @@ class ProgressPage(ttk.Frame):
 
         # Inner centered frame
         inner_frame = ttk.Frame(self)
-        inner_frame.pack(expand=True, fill="both")
+        inner_frame.grid(row=1, column=1, sticky="ew", pady=20)
+        inner_frame.grid_columnconfigure(0, weight=1)
+
+        # progress text
+        progress_text_label = ttk.Label(inner_frame, textvariable=state.progress_text) 
+        progress_text_label.grid(row=0, column=0, sticky="ew", pady=(0, 10))
 
         # progress bar
         progress_bar = ttk.Progressbar(inner_frame, variable=state.progress_bar_value, orient="horizontal", 
                                        length=100, mode='determinate')
         
-        progress_bar.pack(pady=10)
-    
+        progress_bar.grid(row=1, column=0, sticky="ew", pady=(0, 10))
+
     def on_show(self):
         logic.progress_page_shown(self.state)
         
