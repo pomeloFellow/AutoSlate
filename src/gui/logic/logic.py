@@ -41,17 +41,20 @@ def update_ui(state, percent, stage):
     log("Progress Value: " + str(percent))
 
     match stage:
-        case pr.ProgressReport.Stage.FIN_EXTRACT:
-            state.progress_text.set("Finished extracting audio.")
+        case pr.ProgressReport.Stage.EXTRACTING:
+            state.progress_text.set("Extracting audio.")
 
-        case pr.ProgressReport.Stage.FIN_PREPROCESS:
-            state.progress_text.set("Finished cleaning audio.")
+        case pr.ProgressReport.Stage.PREPROCESSING:
+            state.progress_text.set("Cleaning audio.")
 
-        case pr.ProgressReport.Stage.FIN_TRANSCRIBE:
-            state.progress_text.set("Finished transcribing audio.")
+        case pr.ProgressReport.Stage.TRANSCRIBING:
+            state.progress_text.set("Transcribing audio.")
 
-        case pr.ProgressReport.Stage.FIN_RENAME:
-            state.progress_text.set("Finished renaming file.")
+        case pr.ProgressReport.Stage.RENAMING:
+            state.progress_text.set("Renaming file")
+
+        case pr.ProgressReport.Stage.DONE:
+            state.progress_text.set("Finished processing videos.")
 
     
 def relabel_videos(state):

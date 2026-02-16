@@ -22,7 +22,7 @@ def get_text_from_audio(video_path, ismp4, progress_report, start_time = 0, min_
     else:
         raw_audio = braw.BRAW_extract_raw_audio(str(video_path))
     
-    curr_stage = pr.ProgressReport.Stage.FIN_EXTRACT
+    curr_stage = pr.ProgressReport.Stage.PREPROCESSING
     progress_report.update_progress(curr_stage)
     progress_report.on_progress(progress_report.percent, curr_stage)
 
@@ -32,7 +32,7 @@ def get_text_from_audio(video_path, ismp4, progress_report, start_time = 0, min_
     if end_time <= start_time: # end earlier than start - not allowed ADD ERROR HANDLING
         return None
     
-    curr_stage = pr.ProgressReport.Stage.FIN_PREPROCESS
+    curr_stage = pr.ProgressReport.Stage.TRANSCRIBING
     progress_report.update_progress(curr_stage)
     progress_report.on_progress(progress_report.percent, curr_stage)
 
@@ -41,7 +41,7 @@ def get_text_from_audio(video_path, ismp4, progress_report, start_time = 0, min_
     confidence = transcriber.total_weighted_audio_confidence(whisper_result)
     audio_text = transcriber.get_text(whisper_result)
 
-    curr_stage = pr.ProgressReport.Stage.FIN_TRANSCRIBE
+    curr_stage = pr.ProgressReport.Stage.RENAMING
     progress_report.update_progress(curr_stage)
     progress_report.on_progress(progress_report.percent, curr_stage)
 
