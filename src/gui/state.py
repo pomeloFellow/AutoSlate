@@ -18,4 +18,5 @@ class AppState:
         self.progress_bar_value = tk.IntVar()
         self.progress_text = tk.StringVar()
         self.progress_report = None
+        self.show_results_button = tk.BooleanVar(value=False)
 

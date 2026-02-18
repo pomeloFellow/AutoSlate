@@ -29,15 +29,22 @@ def relabel_videos(input, progress_report, start_time=0, min_time=-1, min_confid
 
     elif input_path.is_dir():
         util.log("Goes to is dir")
-        video_files = list(input_path.rglob("*"))
+
+        # make list of video giles
+        video_files = [
+            f for f in input_path.rglob("*")
+            if f.is_file() and f.suffix.lower() in {".mp4", ".braw"}
+        ]
+
         util.log(video_files)
 
         # set progress report total
         progress_report.set_total(len(video_files))
+
+        # process each video
         for file_path in video_files:
-            if file_path.suffix.lower() in {".mp4", ".braw"}:
-                util.log("Is mp4 or braw")
-                process_video(file_path, start_time, min_time, min_confidence, progress_report)
+            process_video(file_path, start_time, min_time, min_confidence, progress_report)
+
     helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.DONE)
 
 

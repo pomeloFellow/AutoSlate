@@ -5,6 +5,7 @@ import ttkthemes
 from src.gui.state import AppState
 from src.gui.pages.start import StartPage
 from src.gui.pages.progress import ProgressPage
+from src.gui.pages.results import ResultsPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -38,6 +39,12 @@ class App(tk.Tk):
         )
 
         self.pages["progress"] = ProgressPage(
+            self.content_frame,
+            self.state,
+            to_results = lambda: self.show_page("results")
+        )
+
+        self.pages["results"] = ResultsPage(
             self.content_frame,
             self.state,
         )

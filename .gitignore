@@ -181,7 +181,7 @@ cython_debug/
 .cursorindexingignore
 
 # Other
-/test
+testing/unlabeled
 *.o
 /old
 result.json

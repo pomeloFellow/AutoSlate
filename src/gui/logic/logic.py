@@ -19,6 +19,7 @@ def update_folder_button_text(state):
 
 def progress_page_shown(state):
     # set up progress
+    state.show_results_button.set(False)
     progressreport = pr.ProgressReport()
     state.progress_report = progressreport
 
@@ -55,6 +56,7 @@ def update_ui(state, percent, stage):
 
         case pr.ProgressReport.Stage.DONE:
             state.progress_text.set("Finished processing videos.")
+            state.show_results_button.set(True)
 
     
 def relabel_videos(state):
@@ -74,4 +76,28 @@ def relabel_videos(state):
 
     core.relabel_videos(folder_path_str, progress_report, start_time, min_time, min_confidence)
 
+def bind_visibility(var, widget, method="grid"):
+    """
+    Binds a tk.BooleanVar to a widget's visibility.
 
+    var: tk.BooleanVar
+    widget: ttk widget
+    method: "grid" or "pack"
+    """
+
+    def callback(*args):
+        if var.get():
+            if method == "grid":
+                widget.grid()
+            elif method == "pack":
+                widget.pack()
+        else:
+            if method == "grid":
+                widget.grid_remove()
+            elif method == "pack":
+                widget.pack_forget()
+
+    var.trace_add("write", callback)
+
+    # Set correct initial state immediately
+    callback()
