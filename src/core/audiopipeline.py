@@ -1,6 +1,7 @@
 import src.audio.preprocessor as preprocessor
 import src.audio.transcriber as transcriber
 import src.gui.logic.ProgressReport as pr
+import src.utils.helper as helper
 
 import braw_extension as braw
 
@@ -22,9 +23,7 @@ def get_text_from_audio(video_path, ismp4, progress_report, start_time = 0, min_
     else:
         raw_audio = braw.BRAW_extract_raw_audio(str(video_path))
     
-    curr_stage = pr.ProgressReport.Stage.PREPROCESSING
-    progress_report.update_progress(curr_stage)
-    progress_report.on_progress(progress_report.percent, curr_stage)
+    helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.PREPROCESSING)
 
     audio = preprocessor.preprocess_audio(raw_audio)
     end_time = preprocessor.find_end_time(audio, min_time)
@@ -32,17 +31,13 @@ def get_text_from_audio(video_path, ismp4, progress_report, start_time = 0, min_
     if end_time <= start_time: # end earlier than start - not allowed ADD ERROR HANDLING
         return None
     
-    curr_stage = pr.ProgressReport.Stage.TRANSCRIBING
-    progress_report.update_progress(curr_stage)
-    progress_report.on_progress(progress_report.percent, curr_stage)
+    helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.TRANSCRIBING)
 
     whisper_result = transcriber.transcribe(audio, end_time, start_time)
 
     confidence = transcriber.total_weighted_audio_confidence(whisper_result)
     audio_text = transcriber.get_text(whisper_result)
 
-    curr_stage = pr.ProgressReport.Stage.RENAMING
-    progress_report.update_progress(curr_stage)
-    progress_report.on_progress(progress_report.percent, curr_stage)
+    helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.RENAMING)
 
     return audio_text, confidence

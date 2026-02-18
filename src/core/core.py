@@ -4,6 +4,7 @@ import src.filesys.files as fs
 import src.core.audiopipeline as ap
 from pathlib import Path
 import src.gui.logic.ProgressReport as pr
+import src.utils.helper as helper
 
 def relabel_videos(input, progress_report, start_time=0, min_time=-1, min_confidence=-1):
     """Relabels input videos
@@ -37,9 +38,7 @@ def relabel_videos(input, progress_report, start_time=0, min_time=-1, min_confid
             if file_path.suffix.lower() in {".mp4", ".braw"}:
                 util.log("Is mp4 or braw")
                 process_video(file_path, start_time, min_time, min_confidence, progress_report)
-    curr_stage = pr.ProgressReport.Stage.DONE
-    progress_report.update_progress(curr_stage)
-    progress_report.on_progress(progress_report.percent, curr_stage)
+    helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.DONE)
 
 
 def process_video(video_path, start_time, min_time, min_confidence, progress_report):
@@ -70,8 +69,6 @@ def process_video(video_path, start_time, min_time, min_confidence, progress_rep
     new_label = fs.text_to_file_name(audio_text)
     fs.rename_video(video_path, new_label + video_path.suffix)
 
-    curr_stage = pr.ProgressReport.Stage.EXTRACTING
-    progress_report.update_progress(curr_stage)
-    progress_report.on_progress(progress_report.percent, curr_stage)
+    helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.EXTRACTING)
 
     return True
