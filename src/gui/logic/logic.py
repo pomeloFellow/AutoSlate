@@ -1,8 +1,10 @@
 import src.core.core as core
 from src.utils.utils import log
-from tkinter import filedialog
+from tkinter import filedialog, ttk
 import src.gui.logic.ProgressReport as pr
 import threading
+from src.gui.components.resultbar import ResultBar
+
 
 def browse_folder(state):
     folder = filedialog.askdirectory()
@@ -27,6 +29,11 @@ def progress_page_shown(state):
         state.root.after(0, lambda: update_ui(state, percent, stage))
 
     progressreport.on_progress = on_progress
+
+    def on_done():
+        state.root.after(0, lambda: processing_finished(state))
+
+    progressreport.on_done = on_done
 
     # start work
     worker_thread = threading.Thread(
@@ -75,6 +82,8 @@ def relabel_videos(state):
     # need to pass progress report to use callback
 
     core.relabel_videos(folder_path_str, progress_report, start_time, min_time, min_confidence)
+    progress_report.print_name_log()
+    progress_report.done()
 
 def bind_visibility(var, widget, method="grid"):
     """
@@ -101,3 +110,24 @@ def bind_visibility(var, widget, method="grid"):
 
     # Set correct initial state immediately
     callback()
+
+def processing_finished(state):
+    state.show_results_button.set(True)
+    update_results_ui(state)
+
+def show_name_log_results(state):
+    name_log = state.progress_report.name_log
+    scrollable_frame = state.results_frame
+
+    # Clear old
+    for child in scrollable_frame.winfo_children():
+        child.destroy()
+
+    scrollable_frame.grid_columnconfigure(0, weight=1)
+
+    for row, (old, new) in enumerate(name_log.items()):
+        result_bar = ResultBar(scrollable_frame, old, new)
+        result_bar.grid(row=row, column=0, sticky="ew", pady=2)
+
+def update_results_ui(state):
+    state.root.after(0, lambda: show_name_log_results(state))

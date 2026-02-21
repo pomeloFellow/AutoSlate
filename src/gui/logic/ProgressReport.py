@@ -22,7 +22,17 @@ class ProgressReport():
         # callbacks
         self.on_progress = None
         self.on_done = None
-    
+
+        self.name_log = {}
+
+    def add_to_name_log(self, og_name, new_name):
+        self.name_log[og_name] = new_name
+
+    def print_name_log(self):
+        print("Results:")
+        for old, new in self.name_log.items():
+            print(old + "  -->  " + new)
+
     def set_total(self, num_vids):
         self.total = num_vids * 100
         self.total_vids = num_vids
@@ -61,4 +71,5 @@ class ProgressReport():
         
 
     def done(self):
-        self.on_done
+        if self.on_done:
+            self.on_done()

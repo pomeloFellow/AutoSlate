@@ -35,7 +35,7 @@ class ProgressPage(ttk.Frame):
 
         # results button holder
         results_button_holder = ttk.Frame(results_frame)
-        results_button_holder.grid(row=0, column=2, sticky="ew", pady=(0, 10))
+        results_button_holder.grid(row=0, column=2, sticky="se", pady=(0, 10))
 
         # results button
         results_button = ttk.Button(results_button_holder, text="Results", command=to_results)

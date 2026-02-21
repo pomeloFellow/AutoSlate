@@ -47,6 +47,7 @@ class App(tk.Tk):
         self.pages["results"] = ResultsPage(
             self.content_frame,
             self.state,
+            to_start = lambda: self.show_page("main")
         )
 
         # placing pages

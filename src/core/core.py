@@ -74,7 +74,9 @@ def process_video(video_path, start_time, min_time, min_confidence, progress_rep
 
     # relabel video
     new_label = fs.text_to_file_name(audio_text)
-    fs.rename_video(video_path, new_label + video_path.suffix)
+    new_name = new_label + video_path.suffix
+    fs.rename_video(video_path, new_name)
+    progress_report.add_to_name_log(video_path.name, new_name)
 
     helper.update_pr_gui(progress_report, pr.ProgressReport.Stage.EXTRACTING)
 

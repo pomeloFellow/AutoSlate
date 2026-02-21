@@ -20,3 +20,6 @@ class AppState:
         self.progress_report = None
         self.show_results_button = tk.BooleanVar(value=False)
 
+        # results
+        self.results_frame = None
+
