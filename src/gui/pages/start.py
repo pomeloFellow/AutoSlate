@@ -2,7 +2,7 @@ from tkinter import ttk
 import src.gui.logic.logic as logic
 
 class StartPage(ttk.Frame):
-    def __init__(self, parent, state, to_progress_bar):
+    def __init__(self, parent, state, to_progress_bar, to_adv_settings):
         super().__init__(parent)
         self.state = state
 
@@ -46,5 +46,9 @@ class StartPage(ttk.Frame):
 
         ttk.Button(
             buttons_frame,
-            text="Advanced Settings"
+            text="Advanced Settings",
+            command=to_adv_settings,
         ).grid(row=2, column=0, sticky="ew")
+
+    def on_show(self):
+        logic.reset_settings_to_default(self.state)

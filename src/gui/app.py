@@ -6,6 +6,7 @@ from src.gui.state import AppState
 from src.gui.pages.start import StartPage
 from src.gui.pages.progress import ProgressPage
 from src.gui.pages.results import ResultsPage
+from src.gui.pages.advsettings import AdvSettingsPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -36,6 +37,7 @@ class App(tk.Tk):
             self.content_frame,
             self.state,
             to_progress_bar=lambda: self.show_page("progress"),
+            to_adv_settings = lambda: self.show_page("advsettings")
         )
 
         self.pages["progress"] = ProgressPage(
@@ -48,6 +50,12 @@ class App(tk.Tk):
             self.content_frame,
             self.state,
             to_start = lambda: self.show_page("main")
+        )
+
+        self.pages["advsettings"] = AdvSettingsPage(
+            self.content_frame,
+            self.state,
+            to_progress_bar=lambda: self.show_page("progress")
         )
 
         # placing pages

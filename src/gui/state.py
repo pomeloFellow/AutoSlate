@@ -23,3 +23,7 @@ class AppState:
         # results
         self.results_frame = None
 
+        #settings
+        self.start_time_mode = tk.StringVar(value="Start of Clip")
+        self.min_time_mode = tk.StringVar(value="Slate Clap")
+

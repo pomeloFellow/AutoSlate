@@ -131,3 +131,17 @@ def show_name_log_results(state):
 
 def update_results_ui(state):
     state.root.after(0, lambda: show_name_log_results(state))
+
+def reset_settings_to_default(state):
+    state.start_time.set(0.0)
+    state.min_time.set(1.0)
+    state.min_confidence.set(-1.0)
+
+def validate_float(P):
+    if P == "":
+        return True
+    try:
+        float(P)
+        return True
+    except ValueError:
+        return False
