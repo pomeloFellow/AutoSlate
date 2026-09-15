@@ -1,7 +1,7 @@
 [project]
 name = "autoslate"
 version = "0.1.0"
-description = "Add your description here"
+description = "Automatically relables video files [scene/shot/slate] according to audio call."
 readme = "README.md"
 authors = [
     { name = "Likha Pulido", email = "122317171+pomeloFellow@users.noreply.github.com" }
